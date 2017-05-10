@@ -8,15 +8,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.Bean
 
 @SpringBootApplication
-class Step0Application {
+open class Step3Application {
 
     @Bean
-    fun setUp(singerRepository: SingerRepository,
+    open fun setUp(singerRepository: SingerRepository,
               songRepository: SongRepository,
               userRepository: UserRepository,
               playlistRepository: PlaylistRepository,
-              liveRepository: LiveRepository,
-              totoRepository: TotoRepository) = CommandLineRunner {
+              liveRepository: LiveRepository) = CommandLineRunner {
         val singer1 = Singer("Coeur de Pirate")
         val singer2 = Singer("Charlotte Marin")
         val singer3 = Singer("Parov Stelar")
@@ -49,8 +48,15 @@ class Step0Application {
         val live3 = Live(user4, song1)
         liveRepository.save(listOf(live1, live2, live3))
     }
+
+//    @Bean
+//    fun personProcessor(): ResourceProcessor<Resource<AbstractEntity>> {
+//        return ResourceProcessor { resource ->
+//            Resource(resource.content)
+//        }
+//    }
 }
 
 fun main(args: Array<String>) {
-    SpringApplication.run(Step0Application::class.java, *args)
+    SpringApplication.run(Step2Application::class.java, *args)
 }

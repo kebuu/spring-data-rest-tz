@@ -10,7 +10,10 @@
 
 	<modules>
 		<module>step0</module>
-	</modules>
+		<module>step1</module>
+		<module>step2</module>
+        <module>step3</module>
+    </modules>
 
 	<name>spring-data-rest-tz</name>
 

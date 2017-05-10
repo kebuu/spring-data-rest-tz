@@ -1,0 +1,3 @@
+- Validation
+- Gestion des evenements (pour qu'il n'y ai qu'un live par user + l'ajouter dans le model)
+- Ajout d'un lien vers le live d'un user
