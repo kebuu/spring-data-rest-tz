@@ -1,3 +1,3 @@
 - Ajouter des requetes custom
-- Modifier les liens des repo (Singer => artist)
-- Gerer des listes paginées
+- Modifier les liens des repo (Singer => artist) (semble pas marcher pour les itemResourceRel)
+- Gerer des listes paginées (regarder les reuetes qui passent pour recupere toutes les infos)

@@ -6,9 +6,13 @@ import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.Bean
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.context.SecurityContextHolder
 
 @SpringBootApplication
-open class Step3Application {
+open class Step4Application {
 
     @Bean
     open fun setUp(singerRepository: SingerRepository,
@@ -16,6 +20,8 @@ open class Step3Application {
               userRepository: UserRepository,
               playlistRepository: PlaylistRepository,
               liveRepository: LiveRepository) = CommandLineRunner {
+        SecurityContextHolder.getContext().authentication = SetupAuhentication()
+
         val singer1 = Singer("Coeur de Pirate")
         val singer2 = Singer("Charlotte Marin")
         val singer3 = Singer("Parov Stelar")
@@ -48,6 +54,7 @@ open class Step3Application {
         val live3 = Live(user4, song1)
         liveRepository.save(listOf(live1, live2, live3))
 
+        SecurityContextHolder.getContext().authentication = null
     }
 
 //    @Bean
@@ -59,5 +66,31 @@ open class Step3Application {
 }
 
 fun main(args: Array<String>) {
-    SpringApplication.run(Step3Application::class.java, *args)
+    SpringApplication.run(Step4Application::class.java, *args)
+}
+
+class SetupAuhentication : Authentication {
+    override fun setAuthenticated(p0: Boolean) {
+
+    }
+
+    override fun getName(): String {
+        return ""
+    }
+
+    override fun getCredentials(): Any {
+        return ""
+    }
+
+    override fun getPrincipal(): Any {
+        return Any()
+    }
+
+    override fun isAuthenticated() = true
+
+    override fun getDetails() = ""
+
+    override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
+        return mutableListOf(SimpleGrantedAuthority("ROLE_ADMIN"), SimpleGrantedAuthority("ROLE_USER"))
+    }
 }

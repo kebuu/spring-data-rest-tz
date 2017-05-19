@@ -1,14 +1,20 @@
 package com.cta.tz
 
+import com.cta.tz.controller.DtoController
 import com.cta.tz.domain.*
 import com.cta.tz.repository.*
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.Bean
+import org.springframework.data.rest.webmvc.RepositoryLinksResource
+import org.springframework.hateoas.Link
+import org.springframework.hateoas.ResourceProcessor
+import org.springframework.hateoas.Resources
+import org.springframework.hateoas.mvc.ControllerLinkBuilder
 
 @SpringBootApplication
-open class Step3Application {
+open class Step5Application {
 
     @Bean
     open fun setUp(singerRepository: SingerRepository,
@@ -48,16 +54,29 @@ open class Step3Application {
         val live3 = Live(user4, song1)
         liveRepository.save(listOf(live1, live2, live3))
 
+        println(userRepository.howManyPlaylist())
     }
 
-//    @Bean
-//    fun personProcessor(): ResourceProcessor<Resource<AbstractEntity>> {
-//        return ResourceProcessor { resource ->
-//            Resource(resource.content)
-//        }
-//    }
+    @Bean
+    open fun personProcessor(): ResourceProcessor<RepositoryLinksResource> {
+        return ResourceProcessor { resource ->
+            val linkTo = ControllerLinkBuilder.linkTo(DtoController::class.java, DtoController::howManyPlaylist3).withRel(DtoController::howManyPlaylist3.name)
+            resource.add(linkTo)
+            resource.add(ControllerLinkBuilder.linkTo(DtoController::class.java).withRel("hello"))
+            resource
+        }
+    }
+
+    @Bean
+    open fun personProcessor2(): ResourceProcessor<Resources<User>> {
+
+        return ResourceProcessor { resource ->
+            resource.add(Link("http://localhost:8080/people", "added-link"))
+            resource
+        }
+    }
 }
 
 fun main(args: Array<String>) {
-    SpringApplication.run(Step3Application::class.java, *args)
+    SpringApplication.run(Step5Application::class.java, *args)
 }
